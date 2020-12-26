@@ -6,11 +6,9 @@ Author: Erin D. Spruenken
 Maintainer: Erin D. Spruenken <spruenke@hu-berlin.de>
 Description: Bootstrap Statistics and Tests. Helper function for matrix-based statistics (row- and columnwise computation).
 License: GPL (>= 2)
-Imports: Imports: Rcpp (>= 1.0.4)
+Imports: Rcpp (>= 1.0.4)
 LinkingTo: Rcpp
 RoxygenNote: 6.0.1.9000
 Encoding: UTF-8
 LazyData: true
-Suggests: knitr,
-    rmarkdown
-VignetteBuilder: knitr
+
