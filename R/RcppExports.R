@@ -5,7 +5,7 @@
 #'
 #' @param x Numeric Matrix
 #' @return Vector of sample excess kurtosis for all columns
-colKurt <- function(x) {
+.colKurtCpp <- function(x) {
     .Call(`_nboot_colKurt`, x)
 }
 
@@ -13,15 +13,19 @@ colKurt <- function(x) {
 #'
 #' @param x Numeric Matrix
 #' @return Vector of sample excess kurtosis for all rows
-rowKurt <- function(x) {
+.rowKurtCpp <- function(x) {
     .Call(`_nboot_rowKurt`, x)
+}
+
+.betaBootNp <- function(y, X, nboot) {
+    .Call(`_nboot_betaBoot`, y, X, nboot)
 }
 
 #' Computes columnwise minimum of a numeric matrix
 #'
 #' @param x Numeric Matrix
 #' @return Vector of minimum value of each column
-colMin <- function(x) {
+.colMinCpp <- function(x) {
     .Call(`_nboot_colMin`, x)
 }
 
@@ -29,7 +33,7 @@ colMin <- function(x) {
 #'
 #' @param x Numeric Matrix
 #' @return Vector of maximum value of each column
-colMax <- function(x) {
+.colMaxCpp <- function(x) {
     .Call(`_nboot_colMax`, x)
 }
 
@@ -37,7 +41,7 @@ colMax <- function(x) {
 #'
 #' @param x Numeric Matrix
 #' @return Vector of minimum value of each row
-rowMin <- function(x) {
+.rowMinCpp <- function(x) {
     .Call(`_nboot_rowMin`, x)
 }
 
@@ -45,7 +49,7 @@ rowMin <- function(x) {
 #'
 #' @param x Numeric Matrix
 #' @return Vector of maximum value of each row
-rowMax <- function(x) {
+.rowMaxCpp <- function(x) {
     .Call(`_nboot_rowMax`, x)
 }
 
@@ -54,7 +58,7 @@ rowMax <- function(x) {
 #' @param x Numeric Matrix
 #' @param probs Vector of quantiles to compute
 #' @return Vector/Matrix of rowwise quantiles
-rowQuant <- function(a, probs) {
+.rowQuantCpp <- function(a, probs) {
     .Call(`_nboot_rowQuant`, a, probs)
 }
 
@@ -63,7 +67,7 @@ rowQuant <- function(a, probs) {
 #' @param x Numeric Matrix
 #' @param probs Vector of quantiles to compute
 #' @return Vector/Matrix of columnwise quantiles
-colQuant <- function(a, probs) {
+.colQuantCpp <- function(a, probs) {
     .Call(`_nboot_colQuant`, a, probs)
 }
 
@@ -71,7 +75,7 @@ colQuant <- function(a, probs) {
 #'
 #' @param x Numeric Matrix
 #' @return Vector of sample skewness for all columns
-colSkew <- function(x) {
+.colSkewCpp <- function(x) {
     .Call(`_nboot_colSkew`, x)
 }
 
@@ -79,7 +83,7 @@ colSkew <- function(x) {
 #'
 #' @param x Numeric Matrix
 #' @return Vector of sample skewness for all rows
-rowSkew <- function(x) {
+.rowSkewCpp <- function(x) {
     .Call(`_nboot_rowSkew`, x)
 }
 

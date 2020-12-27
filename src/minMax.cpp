@@ -6,7 +6,7 @@ using namespace Rcpp;
 //'
 //' @param x Numeric Matrix
 //' @return Vector of minimum value of each column
-// [[Rcpp::export]]
+// [[Rcpp::export(.colMinCpp)]]
 NumericVector colMin(NumericMatrix x) {
     int nc = x.ncol();
     NumericVector colM(nc);
@@ -20,7 +20,7 @@ NumericVector colMin(NumericMatrix x) {
 //'
 //' @param x Numeric Matrix
 //' @return Vector of maximum value of each column
-// [[Rcpp::export]]
+// [[Rcpp::export(.colMaxCpp)]]
 NumericVector colMax(NumericMatrix x) {
   int nc = x.ncol();
   NumericVector colM(nc);
@@ -34,7 +34,7 @@ NumericVector colMax(NumericMatrix x) {
 //'
 //' @param x Numeric Matrix
 //' @return Vector of minimum value of each row
-// [[Rcpp::export]]
+// [[Rcpp::export(.rowMinCpp)]]
 NumericVector rowMin(NumericMatrix x) {
   int nr = x.nrow();
   NumericVector colM(nr);
@@ -49,7 +49,7 @@ NumericVector rowMin(NumericMatrix x) {
 //'
 //' @param x Numeric Matrix
 //' @return Vector of maximum value of each row
-// [[Rcpp::export]]
+// [[Rcpp::export(.rowMaxCpp)]]
 NumericVector rowMax(NumericMatrix x) {
   int nr = x.nrow();
   NumericVector colM(nr);

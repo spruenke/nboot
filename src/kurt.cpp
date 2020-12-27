@@ -6,7 +6,7 @@ using namespace Rcpp;
 //'
 //' @param x Numeric Matrix
 //' @return Vector of sample excess kurtosis for all columns
-// [[Rcpp::export]]
+// [[Rcpp::export(.colKurtCpp)]]
 NumericVector colKurt(NumericMatrix x) {
   int nc = x.ncol();
   int nr = x.nrow();
@@ -21,7 +21,7 @@ NumericVector colKurt(NumericMatrix x) {
       }
       colK[i] = (cK / (std::pow(colVar, 2.0))) - 3.0;
   }
-  return(colK);    
+  return(colK);
 }
 
 
@@ -29,7 +29,7 @@ NumericVector colKurt(NumericMatrix x) {
 //'
 //' @param x Numeric Matrix
 //' @return Vector of sample excess kurtosis for all rows
-// [[Rcpp::export]]
+// [[Rcpp::export(.rowKurtCpp)]]
 NumericVector rowKurt(NumericMatrix x) {
   int nc = x.ncol();
   int nr = x.nrow();
@@ -44,5 +44,5 @@ NumericVector rowKurt(NumericMatrix x) {
     }
     colK[i] = (cK / (std::pow(colVar, 2.0))) - 3.0;
   }
-  return(colK);    
+  return(colK);
 }
