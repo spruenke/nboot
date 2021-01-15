@@ -6,6 +6,10 @@ nboot offers a range of methods in a bootstrapped versions, each offering differ
 
 The current version of the package is 0.3.0.
 
+## Installing the Package
+
+Currently, there is no version available on CRAN. To download and install the Package, make sure you have the latest versions of R and Rtools. Install the package by using `devtools::install_github("spruenke/nboot")`. 
+
 ## Template content
 
 You can use the [editor on GitHub](https://github.com/spruenke/nboot/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
