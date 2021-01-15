@@ -16,4 +16,4 @@ Install the package by using `devtools::install_github("spruenke/nboot")`.
 
 ## Issues
 
-If you have any issue with the package or it's functions, please refer to me directly at twitter (@erin_hub)
+If you have any issue with the package or it's functions, please refer to me directly at twitter ([@erin_hub](https://twitter.com/erin_hub))
