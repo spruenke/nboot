@@ -8,7 +8,7 @@ The current version of the package is 0.3.0.
 
 ## Installing the Package
 
-Currently, there is no version available on CRAN. To download and install the Package, make sure you have the latest versions of R and Rtools. Install the package by using `devtools::install_github("spruenke/nboot")`. 
+Currently, there is no version available on CRAN. To download and install the Package, make sure you have the latest versions of R and Rtools. Install the package by using `devtools::install_github("spruenke/nboot")`. If you are using a windows machine, please make sure Rtools is installed: (https://cran.r-project.org/bin/windows/Rtools/history.html)
 
 ## Template content
 
