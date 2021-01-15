@@ -8,10 +8,12 @@ The current version of the package is 0.3.0.
 
 ## Installing the Package
 
-Currently, there is no version available on CRAN. To download and install the Package, make sure you have the latest versions of R, Rtools and devtools. Install the package by using `devtools::install_github("spruenke/nboot")`. If you are using a windows machine, please make sure Rtools is installed and up-to-date: [Rtools on CRAN](https://cran.r-project.org/bin/windows/Rtools/history.html)
+Currently, there is no version available on CRAN. To download and install the Package, make sure you have the latest versions of R, Rtools and devtools. If you are using a windows machine, please make sure Rtools is installed and up-to-date: [Rtools on CRAN](https://cran.r-project.org/bin/windows/Rtools/history.html)
 
-## Template content
+Install the package by using `devtools::install_github("spruenke/nboot")`.
 
-You can use the [editor on GitHub](https://github.com/spruenke/nboot/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+## 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Issues
+
+If you have any issue with the package or it's functions, please refer to me directly at twitter (@erin_hub)
