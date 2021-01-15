@@ -1,6 +1,9 @@
 theme: minima
 title: nboot
 description: An R-Package for Bootstrap Statistics
+author:
+  name: GitHub User
+  email: your-email@domain.com
 navbar-links:
   About Me: "aboutme"
   Resources:
