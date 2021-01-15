@@ -1,4 +1,4 @@
-theme: jekyll-theme-minima
+theme: minima
 title: nboot
 description: An R-Package for Bootstrap Statistics
 navbar-links:
