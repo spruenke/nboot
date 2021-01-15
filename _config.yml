@@ -1,13 +1,13 @@
-theme: jekyll-theme-minima
+theme: minima
 title: nboot
 description: An R-Package for Bootstrap Statistics
 author: Erin Spruenken
 
 minima:
-  # generate social links in footer
-  social_links:
-    twitter: jekyllrb
-    github:  jekyll
+ # generate social links in footer
+ social_links:
+   twitter: jekyllrb
+   github:  jekyll
     # devto: jekyll
     # dribbble: jekyll
     # facebook: jekyll
