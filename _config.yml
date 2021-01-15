@@ -1,4 +1,4 @@
-theme: jekyll-theme-minimal
+theme: jekyll-theme-minima
 title: nboot
 description: An R-Package for Bootstrap Statistics
 author: Erin Spruenken
