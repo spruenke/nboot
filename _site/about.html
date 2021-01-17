@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>About Resampling</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">nboot</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About Bootstrap</a>
+</li>
+<li>
+  <a href="applic.html">Applications</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">About Resampling</h1>
+
+</div>
+
+
+<div id="basic-idea" class="section level3">
+<h3>Basic Idea</h3>
+<p>Sloppily said, Resampling is a nonparametric Maximum-Likelihood Approach. The idea is, to draw new (sub)samples from the original data and estimate statistics based on the (sub)samples and finally combine these estimates to a final one. So, we iterate <em>nboot</em> times and in each iteration we draw a (sub)sample, estimate the statistic of interest, save it and after all iterations use something like mean/median/etc. to fit them into one estimator. Furthermore, we mimic the empirical distribution and can use it for set-estimates (e.g. confidence regions).</p>
+</div>
+<div id="advantages-and-disadvantages" class="section level3">
+<h3>Advantages and Disadvantages</h3>
+<p>The main advantage of resampling techniques is, that they offer a way to overcome small sample size problems. Since especially frequentist statistics rely on large sample properties and asymptotic behavior. On small samples, the statistics can become unreliable fast. Resampling can sometimes solve this problem.</p>
+<p>However, there’s also a downside to resampling. If the small sample is a ‘’bad sample’’, resampling cannot solve the problem since it relies on the sample.</p>
+</div>
+<div id="a-brief-history-of-bootstrap" class="section level2">
+<h2>A Brief History of Bootstrap</h2>
+<p>Efron and Wu and so on and the Jackknife</p>
+</div>
+<div id="methodology-and-terminology" class="section level2">
+<h2>Methodology and Terminology</h2>
+<p>In the following you can find some formal ideas of the methods as well as a brief description of how the different resampling techniques work. Generally, we want to use the law of large numbers and the convergence of the empirical distribution to the actual distribution:</p>
+<p><span class="math display">\[
+\frac{1}{n}\sum_{i=1}^n X_i \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad \mu\\
+\Rightarrow F_n(x) \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad F^X(x)
+\]</span></p>
+<div id="nonparametric-bootstrap" class="section level3">
+<h3>Nonparametric Bootstrap</h3>
+<div id="classical-nonparametric-bootstrap" class="section level4">
+<h4>Classical Nonparametric Bootstrap</h4>
+</div>
+<div id="groupwise-nonparametric-bootstrap" class="section level4">
+<h4>Groupwise Nonparametric Bootstrap</h4>
+</div>
+</div>
+<div id="parametric-bootstrap" class="section level3">
+<h3>Parametric Bootstrap</h3>
+</div>
+<div id="wild-bootstrap" class="section level3">
+<h3>Wild Bootstrap</h3>
+</div>
+<div id="cross-validation" class="section level3">
+<h3>Cross-Validation</h3>
+</div>
+<div id="permutation" class="section level3">
+<h3>Permutation</h3>
+<hr />
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-boot5">
+<p>Bathke, A. et al. (2018). Testing mean differences among groups: Multivariate and repeated measures analysis with minimal assumptions. <em>Multivariate Behavioral Research</em>, <em>53</em>, 384–359.</p>
+</div>
+<div id="ref-wboot2">
+<p>Davidson, R., &amp; Flachaire, E. (2008). The wild bootstrap, tamed at last. <em>Journal of Econometrics</em>, <em>146</em>, 162–169.</p>
+</div>
+<div id="ref-boot1">
+<p>Efron, B. (1979). Bootstrap methods: Another look at the jackknife. <em>The Annals of Statistics</em>, <em>7</em>, 1–26.</p>
+</div>
+<div id="ref-boot2">
+<p>Friedrich, S. et al. (2017). A wild bootstrap approach for nonparametric repeated measurements. <em>Computational Statistics &amp; Data Analysis</em>, <em>113</em>, 38–52.</p>
+</div>
+<div id="ref-boot4">
+<p>Konietschke, F., &amp; Pauly, M. (2014). Bootstrapping and permuting paired t-test type statistics. <em>Statistics and Computing</em>, <em>24</em>, 283–296.</p>
+</div>
+<div id="ref-boot8">
+<p>Mammen, E. (1992). Bootstrap, wild bootstrap and asymptotic normality. <em>Probability Theory and Related Fields</em>, <em>93</em>, 439–455.</p>
+</div>
+<div id="ref-boot7">
+<p>Politis, D. N., &amp; Romano, J. P. (1994). Large sample confidence regions based on subsamples under minimal assumptions. <em>The Annals of Statistics</em>, <em>22</em>, 2031–2050.</p>
+</div>
+<div id="ref-boot6">
+<p>Prášková, Z. (2002). Bootstrap in nonstationary autoregression. <em>Kybernetika</em>, <em>38</em>, 389–404.</p>
+</div>
+<div id="ref-boot3">
+<p>Umlauft, M. et al. (2019). Wild bootstrapping rank-based procedures: Multiple testing in nonparametric factorial repeated measures designs. <em>Journal of Multivariate Analysis</em>, <em>171</em>, 176–192.</p>
+</div>
+<div id="ref-wboot1">
+<p>Wu, C. F. J. (1986). Jackknife, bootstrap and other resampling methods in regression analysis. <em>Annals of Statistics</em>, <em>14</em>, 1261–1295.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "site_libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
