@@ -11,7 +11,7 @@
 
 
 
-<title>About Bootstrap</title>
+<title>About Resampling</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -277,6 +277,9 @@ $(document).ready(function () {
 <li>
   <a href="about.html">About Bootstrap</a>
 </li>
+<li>
+  <a href="applic.html">Applications</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -289,22 +292,19 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">About Bootstrap</h1>
+<h1 class="title toc-ignore">About Resampling</h1>
 
 </div>
 
 
-<p>Some information about resampling and bootstrap</p>
-<div id="what-is-the-idea-of-resampling" class="section level2">
-<h2>What is the Idea of Resampling?</h2>
 <div id="basic-idea" class="section level3">
 <h3>Basic Idea</h3>
-<p>Bla bla bla insert here</p>
+<p>Sloppily said, Resampling is a nonparametric Maximum-Likelihood Approach. The idea is, to draw new (sub)samples from the original data and estimate statistics based on the (sub)samples and finally combine these estimates to a final one. So, we iterate <em>nboot</em> times and in each iteration we draw a (sub)sample, estimate the statistic of interest, save it and after all iterations use something like mean/median/etc. to fit them into one estimator. Furthermore, we mimic the empirical distribution and can use it for set-estimates (e.g. confidence regions).</p>
 </div>
 <div id="advantages-and-disadvantages" class="section level3">
 <h3>Advantages and Disadvantages</h3>
-<p>Pro and Cons</p>
-</div>
+<p>The main advantage of resampling techniques is, that they offer a way to overcome small sample size problems. Since especially frequentist statistics rely on large sample properties and asymptotic behavior. On small samples, the statistics can become unreliable fast. Resampling can sometimes solve this problem.</p>
+<p>However, there’s also a downside to resampling. If the small sample is a ‘’bad sample’’, resampling cannot solve the problem since it relies on the sample.</p>
 </div>
 <div id="a-brief-history-of-bootstrap" class="section level2">
 <h2>A Brief History of Bootstrap</h2>
@@ -312,8 +312,33 @@ $(document).ready(function () {
 </div>
 <div id="methodology-and-terminology" class="section level2">
 <h2>Methodology and Terminology</h2>
-<p>Insert some formulas here</p>
+<p>In the following you can find some formal ideas of the methods as well as a brief description of how the different resampling techniques work. Generally, we want to use the law of large numbers and the convergence of the empirical distribution to the actual distribution:</p>
+<p><span class="math display">\[
+\frac{1}{n}\sum_{i=1}^n X_i \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad \mu\\
+\Rightarrow F_n(x) \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad F^X(x)
+\]</span></p>
+<div id="nonparametric-bootstrap" class="section level3">
+<h3>Nonparametric Bootstrap</h3>
+<div id="classical-nonparametric-bootstrap" class="section level4">
+<h4>Classical Nonparametric Bootstrap</h4>
+</div>
+<div id="groupwise-nonparametric-bootstrap" class="section level4">
+<h4>Groupwise Nonparametric Bootstrap</h4>
+</div>
+</div>
+<div id="parametric-bootstrap" class="section level3">
+<h3>Parametric Bootstrap</h3>
+</div>
+<div id="wild-bootstrap" class="section level3">
+<h3>Wild Bootstrap</h3>
+</div>
+<div id="cross-validation" class="section level3">
+<h3>Cross-Validation</h3>
+</div>
+<div id="permutation" class="section level3">
+<h3>Permutation</h3>
 <hr />
+</div>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2>References</h2>
@@ -391,7 +416,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "site_libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
