@@ -13,6 +13,7 @@
 
 <title>About Resampling</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -22,6 +23,15 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -65,6 +75,29 @@ h6 {
 }
 .table th:not([align]) {
   text-align: left;
+}
+</style>
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
 }
 </style>
 
@@ -314,62 +347,74 @@ $(document).ready(function () {
 <h2>Methodology and Terminology</h2>
 <p>In the following you can find some formal ideas of the methods as well as a brief description of how the different resampling techniques work. Generally, we want to use the law of large numbers and the convergence of the empirical distribution to the actual distribution:</p>
 <p><span class="math display">\[
-\frac{1}{n}\sum_{i=1}^n X_i \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad \mu\\
+\frac{1}{n}\sum_{i=1}^n X_i \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad \mathbb{E}[X]\\
 \Rightarrow F_n(x) \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad F^X(x)
 \]</span></p>
 <div id="nonparametric-bootstrap" class="section level3">
 <h3>Nonparametric Bootstrap</h3>
+<p>As the name says, in the nonparametric setting we want to avoid any parametric assumptions about the distribution of the sample. This package supports two types of nonparametric bootstrap, the classical one (for one- and many-sample problems) as well as the groupwise approach (only many-sample problems).</p>
 <div id="classical-nonparametric-bootstrap" class="section level4">
 <h4>Classical Nonparametric Bootstrap</h4>
+<p>This approach is quite simple. We fix our data <span class="math inline">\(X = \{X_{11}, ..., X_{ji}, ..., X_{kn_{k}}\}\)</span> and sample randomly from this. In a many-sample problem we draw <span class="math inline">\(k \cdot n\)</span> times from this sample and afterwards split into <span class="math inline">\(k\)</span> groups. In each case, we draw with replacement to ensure equal probability for each observation.</p>
 </div>
 <div id="groupwise-nonparametric-bootstrap" class="section level4">
 <h4>Groupwise Nonparametric Bootstrap</h4>
+<p>The groupwise approach is similar to the many-sample version of the classical approach, with the only difference that we fix our data as groups before sampling <span class="math inline">\(X_j = \{X_{j1}, ..., X_{ji}, ..., X_{jn_j}\}\)</span> and sample with replacement for each group separately.</p>
 </div>
 </div>
 <div id="parametric-bootstrap" class="section level3">
 <h3>Parametric Bootstrap</h3>
+<p>The parametric bootstrap makes an assumption about the distribution of the data. Here, the data itself is only fixed to estimate parameters for the distribution and then sample directly from that distribution.</p>
 </div>
 <div id="wild-bootstrap" class="section level3">
 <h3>Wild Bootstrap</h3>
+<p>The wild bootstrap is an approach where we fix our data <span class="math inline">\(X = \{X_{11}, ..., X_{ji}, ..., X_{kn_{k}}\}\)</span>, then center it, such that <span class="math inline">\(Z_{ji} = X_{ji} - \overline{X_{ji}}\)</span>. Now, we sample from a symmetric distribution with <span class="math inline">\(\mathbb{E}[\epsilon] = 0\)</span> and create a bootstrap sample <span class="math inline">\(Z \odot \epsilon\)</span>. This can be done in a groupwise or non-groupwise approach.</p>
 </div>
 <div id="cross-validation" class="section level3">
 <h3>Cross-Validation</h3>
+<p>k-fold Cross Validation is a resampling technique often used in statistical and machine learning. Currently, the package does not support this method. Generally, the procedure works as follows: Shuffle the data, split it into k groups. Let each group be the hold-out group exactly once, train a model on the remaining groups and evaluate it on the hold-out group. Finally, the model can be evaluated over the k scores achieved.</p>
 </div>
 <div id="permutation" class="section level3">
 <h3>Permutation</h3>
+<p>Permutation is a resampling technique which is very useful in many-sample cases. Currently, the package does not support this technique. To explain it, consider a paired t-Test. With paired data <span class="math inline">\(X_i = \{X_{i1}, X_{i2}\}\)</span> we randomly permute these values and conduct the paired t-Test in the bootstrap iteration. The evaluation works in the same way as for any other bootstrap procedure.</p>
 <hr />
-<p>(TO BE UPDATED!) ## References</p>
-<div id="refs" class="references">
-<div id="ref-boot5">
-<p>Bathke, A. et al. (2018). Testing mean differences among groups: Multivariate and repeated measures analysis with minimal assumptions. <em>Multivariate Behavioral Research</em>, <em>53</em>, 384–359.</p>
 </div>
-<div id="ref-wboot2">
-<p>Davidson, R., &amp; Flachaire, E. (2008). The wild bootstrap, tamed at last. <em>Journal of Econometrics</em>, <em>146</em>, 162–169.</p>
 </div>
-<div id="ref-boot1">
-<p>Efron, B. (1979). Bootstrap methods: Another look at the jackknife. <em>The Annals of Statistics</em>, <em>7</em>, 1–26.</p>
+<div id="to-be-updated-references" class="section level2 unnumbered">
+<h2 class="unnumbered">(TO BE UPDATED!) References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-boot5" class="csl-entry">
+Bathke, A. et al. (2018). Testing mean differences among groups: Multivariate and repeated measures analysis with minimal assumptions. <em>Multivariate Behavioral Research</em>, <em>53</em>, 384–359.
 </div>
-<div id="ref-boot2">
-<p>Friedrich, S. et al. (2017). A wild bootstrap approach for nonparametric repeated measurements. <em>Computational Statistics &amp; Data Analysis</em>, <em>113</em>, 38–52.</p>
+<div id="ref-boot8" class="csl-entry">
+Beran, R. (1982). Estimated sampling distributions: The bootstrap and competitors. <em>The Annals of Statistics</em>, <em>10</em>, 212–225.
 </div>
-<div id="ref-boot4">
-<p>Konietschke, F., &amp; Pauly, M. (2014). Bootstrapping and permuting paired t-test type statistics. <em>Statistics and Computing</em>, <em>24</em>, 283–296.</p>
+<div id="ref-boot8" class="csl-entry">
+Beran, R. (1982). Estimated sampling distributions: The bootstrap and competitors. <em>The Annals of Statistics</em>, <em>10</em>, 212–225.
 </div>
-<div id="ref-boot8">
-<p>Mammen, E. (1992). Bootstrap, wild bootstrap and asymptotic normality. <em>Probability Theory and Related Fields</em>, <em>93</em>, 439–455.</p>
+<div id="ref-wboot2" class="csl-entry">
+Davidson, R., &amp; Flachaire, E. (2008). The wild bootstrap, tamed at last. <em>Journal of Econometrics</em>, <em>146</em>, 162–169.
 </div>
-<div id="ref-boot7">
-<p>Politis, D. N., &amp; Romano, J. P. (1994). Large sample confidence regions based on subsamples under minimal assumptions. <em>The Annals of Statistics</em>, <em>22</em>, 2031–2050.</p>
+<div id="ref-boot1" class="csl-entry">
+Efron, B. (1979). Bootstrap methods: Another look at the jackknife. <em>The Annals of Statistics</em>, <em>7</em>, 1–26.
 </div>
-<div id="ref-boot6">
-<p>Prášková, Z. (2002). Bootstrap in nonstationary autoregression. <em>Kybernetika</em>, <em>38</em>, 389–404.</p>
+<div id="ref-boot2" class="csl-entry">
+Friedrich, S. et al. (2017). A wild bootstrap approach for nonparametric repeated measurements. <em>Computational Statistics &amp; Data Analysis</em>, <em>113</em>, 38–52.
 </div>
-<div id="ref-boot3">
-<p>Umlauft, M. et al. (2019). Wild bootstrapping rank-based procedures: Multiple testing in nonparametric factorial repeated measures designs. <em>Journal of Multivariate Analysis</em>, <em>171</em>, 176–192.</p>
+<div id="ref-boot4" class="csl-entry">
+Konietschke, F., &amp; Pauly, M. (2014). Bootstrapping and permuting paired t-test type statistics. <em>Statistics and Computing</em>, <em>24</em>, 283–296.
 </div>
-<div id="ref-wboot1">
-<p>Wu, C. F. J. (1986). Jackknife, bootstrap and other resampling methods in regression analysis. <em>Annals of Statistics</em>, <em>14</em>, 1261–1295.</p>
+<div id="ref-boot7" class="csl-entry">
+Politis, D. N., &amp; Romano, J. P. (1994). Large sample confidence regions based on subsamples under minimal assumptions. <em>The Annals of Statistics</em>, <em>22</em>, 2031–2050.
 </div>
+<div id="ref-boot6" class="csl-entry">
+Prášková, Z. (2002). Bootstrap in nonstationary autoregression. <em>Kybernetika</em>, <em>38</em>, 389–404.
+</div>
+<div id="ref-boot3" class="csl-entry">
+Umlauft, M. et al. (2019). Wild bootstrapping rank-based procedures: Multiple testing in nonparametric factorial repeated measures designs. <em>Journal of Multivariate Analysis</em>, <em>171</em>, 176–192.
+</div>
+<div id="ref-wboot1" class="csl-entry">
+Wu, C. F. J. (1986). Jackknife, bootstrap and other resampling methods in regression analysis. <em>Annals of Statistics</em>, <em>14</em>, 1261–1295.
 </div>
 </div>
 </div>
@@ -383,7 +428,7 @@ $(document).ready(function () {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
