@@ -41,6 +41,32 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// u_exact_boot_np
+arma::vec u_exact_boot_np(arma::colvec& x, arma::colvec& y, const int nboot);
+RcppExport SEXP _nboot_u_exact_boot_np(SEXP xSEXP, SEXP ySEXP, SEXP nbootSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::colvec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::colvec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const int >::type nboot(nbootSEXP);
+    rcpp_result_gen = Rcpp::wrap(u_exact_boot_np(x, y, nboot));
+    return rcpp_result_gen;
+END_RCPP
+}
+// u_exact_boot_perm
+arma::vec u_exact_boot_perm(arma::colvec& x, arma::colvec& y, const int nboot);
+RcppExport SEXP _nboot_u_exact_boot_perm(SEXP xSEXP, SEXP ySEXP, SEXP nbootSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::colvec& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::colvec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const int >::type nboot(nbootSEXP);
+    rcpp_result_gen = Rcpp::wrap(u_exact_boot_perm(x, y, nboot));
+    return rcpp_result_gen;
+END_RCPP
+}
 // colMin
 NumericVector colMin(NumericMatrix x);
 RcppExport SEXP _nboot_colMin(SEXP xSEXP) {
@@ -109,6 +135,28 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// rankMatCol
+Rcpp::NumericMatrix rankMatCol(Rcpp::NumericMatrix x);
+RcppExport SEXP _nboot_rankMatCol(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rankMatCol(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rankMatRow
+Rcpp::NumericMatrix rankMatRow(Rcpp::NumericMatrix x);
+RcppExport SEXP _nboot_rankMatRow(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rankMatRow(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // colSkew
 NumericVector colSkew(NumericMatrix x);
 RcppExport SEXP _nboot_colSkew(SEXP xSEXP) {
@@ -136,12 +184,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nboot_colKurt", (DL_FUNC) &_nboot_colKurt, 1},
     {"_nboot_rowKurt", (DL_FUNC) &_nboot_rowKurt, 1},
     {"_nboot_betaBoot", (DL_FUNC) &_nboot_betaBoot, 3},
+    {"_nboot_u_exact_boot_np", (DL_FUNC) &_nboot_u_exact_boot_np, 3},
+    {"_nboot_u_exact_boot_perm", (DL_FUNC) &_nboot_u_exact_boot_perm, 3},
     {"_nboot_colMin", (DL_FUNC) &_nboot_colMin, 1},
     {"_nboot_colMax", (DL_FUNC) &_nboot_colMax, 1},
     {"_nboot_rowMin", (DL_FUNC) &_nboot_rowMin, 1},
     {"_nboot_rowMax", (DL_FUNC) &_nboot_rowMax, 1},
     {"_nboot_rowQuant", (DL_FUNC) &_nboot_rowQuant, 2},
     {"_nboot_colQuant", (DL_FUNC) &_nboot_colQuant, 2},
+    {"_nboot_rankMatCol", (DL_FUNC) &_nboot_rankMatCol, 1},
+    {"_nboot_rankMatRow", (DL_FUNC) &_nboot_rankMatRow, 1},
     {"_nboot_colSkew", (DL_FUNC) &_nboot_colSkew, 1},
     {"_nboot_rowSkew", (DL_FUNC) &_nboot_rowSkew, 1},
     {NULL, NULL, 0}

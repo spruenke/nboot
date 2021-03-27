@@ -1,16 +1,15 @@
 Package: nboot
 Type: Package
 Title: Bootstrap Statistics
-Version: 0.3.0
+Version: 0.4.0
 Author: Erin D. Spruenken
 Maintainer: Erin D. Spruenken <erin-dirk@spruenken.de>
 Description: Bootstrap Statistics and Tests. Helper function for matrix-based statistics (row- and columnwise computation).
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.4)
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 7.1.1
 Encoding: UTF-8
 LazyData: true
 URL: https://amor.cms.hu-berlin.de/~spruenke/index.html
 Date: 2020-12-26
-

@@ -1,103 +1,145 @@
-#' Computes sample skewness for each row of a matrix
+#' Computes row- or columnwise sample skewness.
 #'
-#' @param x Numeric Matrix
-#' @return Vector of sample skewness for all rows
-rowSkew <- function(x){
-  res <- .rowSkewCpp(x)
+#' @param x Numeric Matrix or data.frame.
+#' @param margin Scalar giving the subscripts which the function will be applied over, such as in apply. 1 indicates rows (default), 2 indicates columns.
+#' @return Vector of sample skewness of each row/column.
+#'
+matSkewness <- function(x, margin = 1){
+  if(is.data.frame(x)){
+    y <- as.matrix(x)
+  } else if (is.matrix(x)){
+    y <- x
+  } else {
+    stop("x is neither matrix nor data.frame")
+  }
+
+  if(!(margin %in% c(1,2))) stop("margin must be either 1 (rows) or 2 (columns)")
+  if(any(!is.numeric(y))) stop("x must be completely numeric")
+
+  if(margin == 1){
+    res <- .rowSkewCpp(y)
+  } else if(margin == 2){
+    res <- .colSkewCpp(y)
+  }
   return(res)
 }
 
-#' Computes sample skewness for each column of a matrix
+#' Computes row- or columnwise sample kurtosis.
 #'
-#' @param x Numeric Matrix
-#' @return Vector of sample skewness for all columns
-colSkew <- function(x){
-  res <- .colSkewCpp(x)
+#' @param x Numeric Matrix or data.frame.
+#' @param margin Scalar giving the subscripts which the function will be applied over, such as in apply. 1 indicates rows (default), 2 indicates columns.
+#' @return Vector of sample kurtosis of each row/column.
+#'
+matKurtosis <- function(x, margin = 1){
+  if(is.data.frame(x)){
+    y <- as.matrix(x)
+  } else if (is.matrix(x)){
+    y <- x
+  } else {
+    stop("x is neither matrix nor data.frame")
+  }
+
+  if(!(margin %in% c(1,2))) stop("margin must be either 1 (rows) or 2 (columns)")
+  if(any(!is.numeric(y))) stop("x must be completely numeric")
+
+  if(margin == 1){
+    res <- .rowKurtCpp(y)
+  } else if(margin == 2){
+    res <- .colKurtCpp(y)
+  }
   return(res)
 }
 
-#' Computes sample excess kurtosis for each row of a matrix
+#' Computes row- or columnwise Minimum or Maximum.
 #'
-#' @param x Numeric Matrix
-#' @return Vector of sample excess kurtosis for all rows
-rowKurt <- function(x){
-  res <- .rowKurtCpp(x)
+#' @param x Numeric Matrix or data.frame.
+#' @param margin Scalar giving the subscripts which the function will be applied over, such as in apply. 1 indicates rows (default), 2 indicates columns.
+#' @param min Logical, whether the Minimum should be computed (default is TRUE), otherwise Maximum is computed (FALSE).
+#' @return Vector of Min/Max of each row/column.
+#'
+matMinMax <- function(x, margin = 1, min = T){
+  if(is.data.frame(x)){
+    y <- as.matrix(x)
+  } else if (is.matrix(x)){
+    y <- x
+  } else {
+    stop("x is neither matrix nor data.frame")
+  }
+
+  if(!(margin %in% c(1,2))) stop("margin must be either 1 (rows) or 2 (columns)")
+  if(any(!is.numeric(y))) stop("x must be completely numeric")
+  if(!is.logical(min)) stop("min must be logical")
+  if(margin == 1){
+    if(min == T){
+      res <- .rowMinCpp(y)
+    } else {
+      res <- .rowMaxCpp(y)
+    }
+  } else if(margin == 2){
+    if(min == T){
+      res <- .colMinCpp(y)
+    } else {
+      res <- .colMaxCpp(y)
+    }
+  }
   return(res)
 }
 
-#' Computes sample excess kurtosis for each column of a matrix
+#' Computes row- or columnwise quantiles. The computation mimics the default computation of stat's quantile function (type 7).
 #'
-#' @param x Numeric Matrix
-#' @return Vector of sample excess kurtosis for all columns
-colKurt <- function(x){
-  res <- .colKurtCpp(x)
-  return(res)
-}
-
-#' Computes rowwise minimum of a numeric matrix
+#' @param x Numeric Matrix or data.frame.
+#' @param margin Scalar giving the subscripts which the function will be applied over, such as in apply. 1 indicates rows (default), 2 indicates columns.
+#' @param probs Vector of quantiles to compute, default is 0.5.
+#' @return Vector of row-/columnwise quantiles specified in probs.
 #'
-#' @param x Numeric Matrix
-#' @return Vector of minimum value of each row
-rowMin <- function(x){
-  res <- .rowMinCpp(x)
-  return(res)
-}
+matQuantile <- function(x, margin = 1, probs = 0.5){
+  if(is.data.frame(x)){
+    y <- as.matrix(x)
+  } else if (is.matrix(x)){
+    y <- x
+  } else {
+    stop("x is neither matrix nor data.frame")
+  }
 
-
-#' Computes rowwise maximum of a numeric matrix
-#'
-#' @param x Numeric Matrix
-#' @return Vector of maximum value of each row
-rowMax <- function(x){
-  res <- .rowMaxCpp(x)
-  return(res)
-}
-
-
-#' Computes columnwise minimum of a numeric matrix
-#'
-#' @param x Numeric Matrix
-#' @return Vector of minimum value of each column
-colMin <- function(x){
-  res <- .colMinCpp(x)
-  return(res)
-}
-
-#' Computes columnwise maximum of a numeric matrix
-#'
-#' @param x Numeric Matrix
-#' @return Vector of maximum value of each column
-colMax <- function(x){
-  res <- .colMaxCpp(x)
-  return(res)
-}
-#' Computes columnwise quantiles of a numeric matrix
-#'
-#' @param x Numeric Matrix
-#' @param probs Vector of quantiles to compute
-#' @return Vector/Matrix of columnwise quantiles
-colQuant <- function(x, probs = 0.5){
-  res <- .colQuantCpp(x, probs)
+  if(!(margin %in% c(1,2))) stop("margin must be either 1 (rows) or 2 (columns)")
+  if(any(!is.numeric(y))) stop("x must be completely numeric")
+  if(!is.numeric(probs)) stop("Probabilities must be numeric")
+  if(margin == 1){
+    res <- .rowQuantCpp(y, probs)
+  } else if(margin == 2){
+    res <- .colQuantCpp(y, probs)
+  }
   if(length(probs) == 1){
-        res <- as.numeric(res)
+    res <- as.numeric(res)
   } else if(length(probs) > 1){
-      colnames(res) <- paste0(probs*100, "%")
+    colnames(res) <- paste0(probs * 100, "%")
   }
   return(res)
 }
 
 
-#' Computes rowwise quantiles of a numeric matrix
+#' Computes row- or columnwise ranks. Ties are adjusted with mean-values of given ranks (statistical tie handling).
 #'
-#' @param x Numeric Matrix
-#' @param probs Vector of quantiles to compute
-#' @return Vector/Matrix of rowwise quantiles
-rowQuant <- function(x, probs = 0.5){
-  res <- .rowQuantCpp(x, probs)
-  if(length(probs) == 1){
-      res <- as.numeric(res)
-  } else if(length(probs) > 1){
-      colnames(res) <- paste0(probs * 100, "%")
+#' @param x Numeric Matrix or data.frame.
+#' @param margin Scalar giving the subscripts which the function will be applied over, such as in apply. 1 indicates rows (default), 2 indicates columns.
+#' @return Vector of row-/columnwise ranks.
+#'
+matRank <- function(x, margin = 1){
+  if(is.data.frame(x)){
+    y <- as.matrix(x)
+  } else if (is.matrix(x)){
+    y <- x
+  } else {
+    stop("x is neither matrix nor data.frame")
+  }
+
+  if(!(margin %in% c(1,2))) stop("margin must be either 1 (rows) or 2 (columns)")
+  if(any(!is.numeric(y))) stop("x must be completely numeric")
+
+  if(margin == 1){
+    res <- .RowRankAvg(y)
+  } else if(margin == 2){
+    res <- .ColRankAvg(y)
   }
   return(res)
 }

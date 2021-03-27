@@ -21,6 +21,14 @@
     .Call(`_nboot_betaBoot`, y, X, nboot)
 }
 
+.uExactBootNp <- function(x, y, nboot) {
+    .Call(`_nboot_u_exact_boot_np`, x, y, nboot)
+}
+
+.uExactBootPerm <- function(x, y, nboot) {
+    .Call(`_nboot_u_exact_boot_perm`, x, y, nboot)
+}
+
 #' Computes columnwise minimum of a numeric matrix
 #'
 #' @param x Numeric Matrix
@@ -69,6 +77,14 @@
 #' @return Vector/Matrix of columnwise quantiles
 .colQuantCpp <- function(a, probs) {
     .Call(`_nboot_colQuant`, a, probs)
+}
+
+.ColRankAvg <- function(x) {
+    .Call(`_nboot_rankMatCol`, x)
+}
+
+.RowRankAvg <- function(x) {
+    .Call(`_nboot_rankMatRow`, x)
 }
 
 #' Computes sample skewness for each column of a matrix

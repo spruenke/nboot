@@ -7,7 +7,7 @@
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @param nboot Integer specifying the number of bootstrap iterations (default is 100)
 #' @param boot.type A character string specifying the bootstrap type, must be one of "np" (Non-parametric bootstrap, default), "wild" (Rademacher wild bootstrap) or "npg" (groupwise non-parametric, two-sample only).
-#' @return A list with class "htest" containing the following components
+#' @return A list of class "htest"
 
 t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.sided", nboot = 100, boot.type = "np"){
   if(is.null(y)){
@@ -85,18 +85,18 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
                x.2.mean <- colMeans(x.2.boot)
                x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
-               T.x      <- (x.1.mean - x.2.mean) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               T.x      <- (x.1.mean - x.2.mean - (mean(x) - mean(y))) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
                est      <- "Groupwise Nonparametric Bootstrap"
              },
              np  = { # Nonparametric Bootstrap
-               x.boot   <- matrix(sample(c(x.1,y), size = n*nboot, replace = T), ncol = nboot)
+               x.boot   <- matrix(sample(c(x, y), size = n*nboot, replace = T), ncol = nboot)
                x.1.boot <- x.boot[1:n.1, ]
                x.2.boot <- x.boot[(n.1+1):n, ]
                x.1.mean <- colMeans(x.1.boot)
                x.2.mean <- colMeans(x.2.boot)
                x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
-               T.x      <- (x.1.mean - x.2.mean) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               T.x      <- (x.1.mean - x.2.mean ) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
                est      <- "Nonparametric Bootstrap"
 
              },
@@ -112,6 +112,17 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
                T.x      <- (x.1.mean - x.2.mean) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
                est      <- "Wild Bootstrap"
+             },
+             perm = {
+               x.boot   <- replicate(nboot, sample(c(x,y)))
+               x.1.boot <- x.boot[1:n.1, ]
+               x.2.boot <- x.boot[(n.1+1):n, ]
+               x.1.mean <- colMeans(x.1.boot)
+               x.2.mean <- colMeans(x.2.boot)
+               x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
+               x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
+               T.x      <- (x.1.mean - x.2.mean ) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               est      <- "Permutation"
              }
       )
 
