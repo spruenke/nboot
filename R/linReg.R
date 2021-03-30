@@ -21,4 +21,5 @@ lmBoot <- function(y, X, nboot = 100, intercept = T, boot.type = "np"){
            }
            )
     beta.hat <- rowMeans(beta.boot)
+    return(beta.hat)
 }

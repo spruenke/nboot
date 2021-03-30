@@ -2,10 +2,17 @@
 % Please edit documentation in R/t_test.R
 \name{t.testBoot}
 \alias{t.testBoot}
-\title{Bootstrap version of the student t-Test for one or two samples}
+\title{Resampling version of the student t-Test for one or two samples}
 \usage{
-\method{t}{testBoot}(x, y = NULL, mu.0 = 0, alpha = 0.05,
-  alternative = "two.sided", nboot = 100, boot.type = "np")
+\method{t}{testBoot}(
+  x,
+  y = NULL,
+  mu.0 = 0,
+  alpha = 0.05,
+  alternative = "two.sided",
+  nboot = 100,
+  boot.type = "np"
+)
 }
 \arguments{
 \item{x}{Sample Data (Non-empty numeric vector)}
@@ -20,11 +27,11 @@
 
 \item{nboot}{Integer specifying the number of bootstrap iterations (default is 100)}
 
-\item{boot.type}{A character string specifying the bootstrap type, must be one of "np" (Non-parametric bootstrap, default), "wild" (Rademacher wild bootstrap) or "npg" (groupwise non-parametric, two-sample only).}
+\item{boot.type}{A character string specifying the bootstrap type, must be one of "np" (Non-parametric bootstrap, default), "wild" (Rademacher wild bootstrap), "npg" (groupwise non-parametric) or "perm" (permutation), the latter two work for two-sample-problems only.}
 }
 \value{
-A list with class "htest" containing the following components
+A list of class "htest"
 }
 \description{
-Bootstrap version of the student t-Test for one or two samples
+Resampling version of the student t-Test for one or two samples
 }

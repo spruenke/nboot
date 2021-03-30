@@ -41,6 +41,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// betaBootWild
+arma::mat betaBootWild(arma::colvec& y, const arma::mat& X, const int nboot);
+RcppExport SEXP _nboot_betaBootWild(SEXP ySEXP, SEXP XSEXP, SEXP nbootSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::colvec& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const int >::type nboot(nbootSEXP);
+    rcpp_result_gen = Rcpp::wrap(betaBootWild(y, X, nboot));
+    return rcpp_result_gen;
+END_RCPP
+}
 // u_exact_boot_np
 arma::vec u_exact_boot_np(arma::colvec& x, arma::colvec& y, const int nboot);
 RcppExport SEXP _nboot_u_exact_boot_np(SEXP xSEXP, SEXP ySEXP, SEXP nbootSEXP) {
@@ -184,6 +197,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_nboot_colKurt", (DL_FUNC) &_nboot_colKurt, 1},
     {"_nboot_rowKurt", (DL_FUNC) &_nboot_rowKurt, 1},
     {"_nboot_betaBoot", (DL_FUNC) &_nboot_betaBoot, 3},
+    {"_nboot_betaBootWild", (DL_FUNC) &_nboot_betaBootWild, 3},
     {"_nboot_u_exact_boot_np", (DL_FUNC) &_nboot_u_exact_boot_np, 3},
     {"_nboot_u_exact_boot_perm", (DL_FUNC) &_nboot_u_exact_boot_perm, 3},
     {"_nboot_colMin", (DL_FUNC) &_nboot_colMin, 1},

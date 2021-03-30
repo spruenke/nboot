@@ -15,11 +15,10 @@ arma::mat betaBoot(arma::colvec& y, const arma::mat& X, const int nboot) {
   return betaHat;
 }
 
-#include <Rcpp.h>
-#include <RcppArmadillo.h>
 
+#include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::export(.betaBootWild]]
+// [[Rcpp::export(.betaBootWild)]]
 
 arma::mat betaBootWild(arma::colvec& y, const arma::mat& X, const int nboot) {
   int n = X.n_rows, k = X.n_cols;

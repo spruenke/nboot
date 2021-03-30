@@ -1,10 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Computes sample skewness for each column of a matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of sample skewness for all columns
+
 // [[Rcpp::export(.colSkewCpp)]]
 NumericVector colSkew(NumericMatrix x) {
     int nc = x.ncol();
@@ -26,10 +23,6 @@ NumericVector colSkew(NumericMatrix x) {
     return(colS);
 }
 
-//' Computes sample skewness for each row of a matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of sample skewness for all rows
 // [[Rcpp::export(.rowSkewCpp)]]
 NumericVector rowSkew(NumericMatrix x) {
   int nc = x.ncol();
@@ -50,11 +43,5 @@ NumericVector rowSkew(NumericMatrix x) {
   }
   return(colS);
 }
-
-
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
 
 

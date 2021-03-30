@@ -1,4 +1,4 @@
-#' Bootstrap version of the student t-Test for one or two samples
+#' Resampling version of the student t-Test for one or two samples
 #'
 #' @param x Sample Data (Non-empty numeric vector)
 #' @param y Optional Non-empty numeric vector to compare against (two-sample-test).
@@ -6,10 +6,22 @@
 #' @param alpha Significance level (default is 0.05).
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @param nboot Integer specifying the number of bootstrap iterations (default is 100)
-#' @param boot.type A character string specifying the bootstrap type, must be one of "np" (Non-parametric bootstrap, default), "wild" (Rademacher wild bootstrap) or "npg" (groupwise non-parametric, two-sample only).
+#' @param boot.type A character string specifying the bootstrap type, must be one of "np" (Non-parametric bootstrap, default), "wild" (Rademacher wild bootstrap), "npg" (groupwise non-parametric) or "perm" (permutation), the latter two work for two-sample-problems only.
 #' @return A list of class "htest"
-
+#'
 t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.sided", nboot = 100, boot.type = "np"){
+
+# error handlers ----------------------------------------------------------
+  if(!is.numeric(x)) stop("Data must be numeric")
+  if(!is.null(y) && !is.numeric(y)) stop("Data must be numeric")
+  if(!is.numeric(mu.0)) stop("Null value must be numeric")
+  if(!is.numeric(alpha)) stop("Signifiance level must be numeric")
+  if(!is.numeric(nboot)) stop("Number of Bootstrap Iterations must be numeric")
+  if(!(alternative %in% c("two.sided", "less", "greater"))) stop("Alternative hypothesis must be one of 'two.sided', 'less' or 'greater'")
+  if(!(boot.type %in% c("np", "npg", "perm", "wild"))) stop("Specified resampling type not known")
+  if(is.null(y) && boot.type %in% c("npg", "perm")) stop("The specified bootstrap type is only valid for two-sample problems")
+
+# One Sample Statistics ---------------------------------------------------
   if(is.null(y)){
       T.x    <- numeric(nboot)
       n      <- length(x)
@@ -68,7 +80,9 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
       t.list        <- list("reject" = ret, "null.value" = mu.0, "alternative" = alternative, "method" = "t.test", "estimate" = pop.var, "data.name" = deparse(substitute(x)), "statistic" = pop.stat, "parameters" = pop.par, "p.value" = p.v, "estimation.method" = est, "sample.size" = length(x), "conf.int" = conf.int)
       class(t.list) <- c("htest", class(t.list))
       return(t.list)
-    }
+  }
+
+# Two-Sample Statistics ---------------------------------------------------
     if(!is.null(y)){
       T.x <- numeric(nboot)
       n.1 <- length(x)

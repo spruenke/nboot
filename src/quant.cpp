@@ -1,11 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' Computes rowwise quantiles of a numeric matrix
-//'
-//' @param x Numeric Matrix
-//' @param probs Vector of quantiles to compute
-//' @return Vector/Matrix of rowwise quantiles
+
 // [[Rcpp::export(.rowQuantCpp)]]
 NumericMatrix rowQuant(NumericMatrix a, NumericVector probs){
     int qtL = probs.length();
@@ -32,11 +28,7 @@ NumericMatrix rowQuant(NumericMatrix a, NumericVector probs){
   return rowQ;
 }
 
-//' Computes columnwise quantiles of a numeric matrix
-//'
-//' @param x Numeric Matrix
-//' @param probs Vector of quantiles to compute
-//' @return Vector/Matrix of columnwise quantiles
+
 // [[Rcpp::export(.colQuantCpp)]]
 NumericMatrix colQuant(NumericMatrix a, NumericVector probs){
     int qtL = probs.length();

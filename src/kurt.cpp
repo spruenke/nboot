@@ -2,10 +2,7 @@
 using namespace Rcpp;
 
 
-//' Computes sample excess kurtosis for each column of a matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of sample excess kurtosis for all columns
+
 // [[Rcpp::export(.colKurtCpp)]]
 NumericVector colKurt(NumericMatrix x) {
   int nc = x.ncol();
@@ -25,10 +22,7 @@ NumericVector colKurt(NumericMatrix x) {
 }
 
 
-//' Computes sample excess kurtosis for each row of a matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of sample excess kurtosis for all rows
+
 // [[Rcpp::export(.rowKurtCpp)]]
 NumericVector rowKurt(NumericMatrix x) {
   int nc = x.ncol();

@@ -2,10 +2,6 @@
 using namespace Rcpp;
 
 
-//' Computes columnwise minimum of a numeric matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of minimum value of each column
 // [[Rcpp::export(.colMinCpp)]]
 NumericVector colMin(NumericMatrix x) {
     int nc = x.ncol();
@@ -16,10 +12,7 @@ NumericVector colMin(NumericMatrix x) {
     return(colM);
 }
 
-//' Computes columnwise maximum of a numeric matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of maximum value of each column
+
 // [[Rcpp::export(.colMaxCpp)]]
 NumericVector colMax(NumericMatrix x) {
   int nc = x.ncol();
@@ -30,10 +23,7 @@ NumericVector colMax(NumericMatrix x) {
   return(colM);
 }
 
-//' Computes rowwise minimum of a numeric matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of minimum value of each row
+
 // [[Rcpp::export(.rowMinCpp)]]
 NumericVector rowMin(NumericMatrix x) {
   int nr = x.nrow();
@@ -45,10 +35,7 @@ NumericVector rowMin(NumericMatrix x) {
 }
 
 
-//' Computes rowwise maximum of a numeric matrix
-//'
-//' @param x Numeric Matrix
-//' @return Vector of maximum value of each row
+
 // [[Rcpp::export(.rowMaxCpp)]]
 NumericVector rowMax(NumericMatrix x) {
   int nr = x.nrow();

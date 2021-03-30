@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
+importFrom("stats", "quantile", "var")
 useDynLib(nboot, .registration=TRUE)
