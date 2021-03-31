@@ -5,11 +5,12 @@
 #' @param mu.0 Expected value under the null hypothesis (one-sample-test), default is 0.
 #' @param alpha Significance level (default is 0.05).
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
+#' @param paired Logical, specifying whether a paired test should be conducted (dependent samples)
 #' @param nboot Integer specifying the number of bootstrap iterations (default is 100)
 #' @param boot.type A character string specifying the bootstrap type, must be one of "np" (Non-parametric bootstrap, default), "wild" (Rademacher wild bootstrap), "npg" (groupwise non-parametric) or "perm" (permutation), the latter two work for two-sample-problems only.
 #' @return A list of class "htest"
 #'
-t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.sided", nboot = 100, boot.type = "np"){
+t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.sided", paired = FALSE, nboot = 100, boot.type = "np"){
 
 # error handlers ----------------------------------------------------------
   if(!is.numeric(x)) stop("Data must be numeric")
@@ -20,7 +21,21 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
   if(!(alternative %in% c("two.sided", "less", "greater"))) stop("Alternative hypothesis must be one of 'two.sided', 'less' or 'greater'")
   if(!(boot.type %in% c("np", "npg", "perm", "wild"))) stop("Specified resampling type not known")
   if(is.null(y) && boot.type %in% c("npg", "perm")) stop("The specified bootstrap type is only valid for two-sample problems")
-
+  if(is.null(y) && paired == T) stop("For paired test, two samples are required (y missing)")
+  if(paired == T && length(x) != length(y)) stop("For paired test equal sample sizes are required")
+  if(paired == F && any(is.na(c(x,y)))){
+      warning("Samples include NA values, removing individually")
+      if(any(is.na(x))) x <- x[-which(is.na(x))]
+      if(any(is.na(y))) y <- y[-which(is.na(y))]
+  }
+  if(paired == T && any(is.na(c(x,y)))){
+      warning("Samples include NA values, removing pairwise")
+      ind.x <- which(is.na(x))
+      ind.y <- which(is.na(y))
+      ind   <- c(ind.x, ind.y)
+      x     <- x[-ind]
+      y     <- y[-ind]
+  }
 # One Sample Statistics ---------------------------------------------------
   if(is.null(y)){
       T.x    <- numeric(nboot)
@@ -84,12 +99,12 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
 
 # Two-Sample Statistics ---------------------------------------------------
     if(!is.null(y)){
-      T.x <- numeric(nboot)
-      n.1 <- length(x)
-      n.2 <- length(y)
-      n   <- n.1 + n.2
-
-      t.true <- (mean(x) - mean(y)) / (sqrt((var(x)/n.1) + (var(y)/n.2))) # see Toutenburg p. 145
+      T.x    <- numeric(nboot)
+      n.1    <- length(x)
+      n.2    <- length(y)
+      n      <- n.1 + n.2
+      var.D  <- (var(x)/n.1) + (var(y)/n.2) - if(paired == T) 2 * cov(x,y) / n.1 else 0
+      t.true <- (mean(x) - mean(y)) / (sqrt(var.D)) # see Toutenburg p. 145
 
       switch(boot.type, # switch between (groupwise) nonparametric and wild bootstrap
              npg = { # groupwise nonparametric bootstrap
@@ -99,7 +114,12 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
                x.2.mean <- colMeans(x.2.boot)
                x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
-               T.x      <- (x.1.mean - x.2.mean - (mean(x) - mean(y))) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               var.D    <- (x.1.var / n.1) + (x.2.var / n.2)
+               if(paired == T){
+                 x.cov    <- (colSums(x.1.boot * x.2.boot) - n.1 * x.1.mean * x.2.mean)
+                 var.D    <- var.D - 2 * x.cov / n.1
+               }
+               T.x      <- (x.1.mean - x.2.mean - (mean(x) - mean(y))) / (sqrt(var.D))
                est      <- "Groupwise Nonparametric Bootstrap"
              },
              np  = { # Nonparametric Bootstrap
@@ -110,7 +130,12 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
                x.2.mean <- colMeans(x.2.boot)
                x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
-               T.x      <- (x.1.mean - x.2.mean ) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               var.D    <- (x.1.var / n.1) + (x.2.var / n.2)
+               if(paired == T){
+                 x.cov    <- (colSums(x.1.boot * x.2.boot) - n.1 * x.1.mean * x.2.mean)
+                 var.D    <- var.D - 2 * x.cov / n.1
+               }
+               T.x      <- (x.1.mean - x.2.mean ) / (sqrt(var.D))
                est      <- "Nonparametric Bootstrap"
 
              },
@@ -124,7 +149,12 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
                x.2.mean <- colMeans(x.2.boot)
                x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
-               T.x      <- (x.1.mean - x.2.mean) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               var.D    <- (x.1.var / n.1) + (x.2.var / n.2)
+               if(paired == T){
+                 x.cov    <- (colSums(x.1.boot * x.2.boot) - n.1 * x.1.mean * x.2.mean)
+                 var.D    <- var.D - 2 * x.cov / n.1
+               }
+               T.x      <- (x.1.mean - x.2.mean ) / (sqrt(var.D))
                est      <- "Wild Bootstrap"
              },
              perm = {
@@ -135,7 +165,12 @@ t.testBoot <- function(x, y = NULL, mu.0 = 0, alpha = 0.05, alternative = "two.s
                x.2.mean <- colMeans(x.2.boot)
                x.1.var  <- (colSums(x.1.boot^2) - n.1*x.1.mean^2)/(n.1-1)
                x.2.var  <- (colSums(x.2.boot^2) - n.2*x.2.mean^2)/(n.2-1)
-               T.x      <- (x.1.mean - x.2.mean ) / (sqrt((x.1.var / n.1) + (x.2.var / n.2)))
+               var.D    <- (x.1.var / n.1) + (x.2.var / n.2)
+               if(paired == T){
+                 x.cov    <- (colSums(x.1.boot * x.2.boot) - n.1 * x.1.mean * x.2.mean)
+                 var.D    <- var.D - 2 * x.cov / n.1
+               }
+               T.x      <- (x.1.mean - x.2.mean ) / (sqrt(var.D))
                est      <- "Permutation"
              }
       )

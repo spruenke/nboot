@@ -1,7 +1,7 @@
 Package: nboot
 Type: Package
 Title: Bootstrap Statistics
-Version: 0.4.3
+Version: 0.4.4
 Author: Erin D. Spruenken
 Maintainer: Erin D. Spruenken <erin-dirk@spruenken.de>
 Description: Bootstrap Statistics and Tests. Helper function for matrix-based statistics (row- and columnwise computation).
