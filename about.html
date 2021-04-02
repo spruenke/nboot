@@ -341,7 +341,7 @@ $(document).ready(function () {
 </div>
 <div id="a-brief-history-of-bootstrap" class="section level2">
 <h2>A Brief History of Bootstrap</h2>
-<p>Efron and Wu and so on and the Jackknife</p>
+<p>Bradley Efron introduced the bootstrap in 1979 as “another look at the jackknife.” The jackknife was a resampling technique, which uses <span class="math inline">\(n\)</span> iterations and in each iteration only one observation is left out of the computation. Finally, all <span class="math inline">\(n\)</span> iterations are summarized into one estimation. This was generalized by Efron in his paper of 1979. In 1986, Wu developed the wild bootstrap to adapt for heteroskedastic models. This was enhanced by Mammen in 1993.</p>
 </div>
 <div id="methodology-and-terminology" class="section level2">
 <h2>Methodology and Terminology</h2>
@@ -350,6 +350,7 @@ $(document).ready(function () {
 \frac{1}{n}\sum_{i=1}^n X_i \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad \mathbb{E}[X]\\
 \Rightarrow F_n(x) \quad \stackrel{\mathbb{P}-a.s.}{\to} \quad F^X(x)
 \]</span></p>
+<p>This theory and it’s implication lead to the idea of resampling, since we mimic the distribution by it’s empirical counterpart through bootstrapping and then do, whatever we want to. Therefor, we have that a parameter <span class="math inline">\(\hat{\theta}_{boot}\)</span> converges to <span class="math inline">\(\theta\)</span>, we can construct confidence intervals for it or can use the distribution to decide whether we reject a null hypothesis in a statistical test.</p>
 <div id="nonparametric-bootstrap" class="section level3">
 <h3>Nonparametric Bootstrap</h3>
 <p>As the name says, in the nonparametric setting we want to avoid any parametric assumptions about the distribution of the sample. This package supports two types of nonparametric bootstrap, the classical one (for one- and many-sample problems) as well as the groupwise approach (only many-sample problems).</p>
@@ -368,7 +369,7 @@ $(document).ready(function () {
 </div>
 <div id="wild-bootstrap" class="section level3">
 <h3>Wild Bootstrap</h3>
-<p>The wild bootstrap is an approach where we fix our data <span class="math inline">\(X = \{X_{11}, ..., X_{ji}, ..., X_{kn_{k}}\}\)</span>, then center it, such that <span class="math inline">\(Z_{ji} = X_{ji} - \overline{X_{ji}}\)</span>. Now, we sample from a symmetric distribution with <span class="math inline">\(\mathbb{E}[\epsilon] = 0\)</span> and create a bootstrap sample <span class="math inline">\(Z \odot \epsilon\)</span>. This can be done in a groupwise or non-groupwise approach.</p>
+<p>The wild bootstrap is an approach where we fix our data <span class="math inline">\(X = \{X_{11}, ..., X_{ji}, ..., X_{kn_{k}}\}\)</span>, then center it, such that <span class="math inline">\(Z_{ji} = X_{ji} - \overline{X_{ji}}\)</span>. Now, we sample from a symmetric distribution with <span class="math inline">\(\mathbb{E}[\epsilon] = 0\)</span>, <span class="math inline">\(Var(\epsilon) = 1\)</span> and create a bootstrap sample <span class="math inline">\(Z \odot \epsilon\)</span>. This can be done in a groupwise or non-groupwise approach.</p>
 </div>
 <div id="cross-validation" class="section level3">
 <h3>Cross-Validation</h3>
@@ -376,42 +377,39 @@ $(document).ready(function () {
 </div>
 <div id="permutation" class="section level3">
 <h3>Permutation</h3>
-<p>Permutation is a resampling technique which is very useful in many-sample cases. Currently, the package does not support this technique. To explain it, consider a paired t-Test. With paired data <span class="math inline">\(X_i = \{X_{i1}, X_{i2}\}\)</span> we randomly permute these values and conduct the paired t-Test in the bootstrap iteration. The evaluation works in the same way as for any other bootstrap procedure.</p>
+<p>Permutation is a resampling technique which is very useful in many-sample cases. To explain it, consider a paired t-Test. With paired data <span class="math inline">\(X_i = \{X_{i1}, X_{i2}\}\)</span> we randomly permute these values and conduct the paired t-Test in the bootstrap iteration. The evaluation works in the same way as for any other bootstrap procedure.</p>
 <hr />
 </div>
 </div>
-<div id="to-be-updated-references" class="section level2 unnumbered">
-<h2 class="unnumbered">(TO BE UPDATED!) References</h2>
+<div id="references" class="section level2 unnumbered">
+<h2 class="unnumbered">References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
-<div id="ref-boot5" class="csl-entry">
-Bathke, A. et al. (2018). Testing mean differences among groups: Multivariate and repeated measures analysis with minimal assumptions. <em>Multivariate Behavioral Research</em>, <em>53</em>, 384–359.
-</div>
-<div id="ref-boot8" class="csl-entry">
+<div id="ref-boot10" class="csl-entry">
 Beran, R. (1982). Estimated sampling distributions: The bootstrap and competitors. <em>The Annals of Statistics</em>, <em>10</em>, 212–225.
 </div>
-<div id="ref-boot8" class="csl-entry">
-Beran, R. (1982). Estimated sampling distributions: The bootstrap and competitors. <em>The Annals of Statistics</em>, <em>10</em>, 212–225.
-</div>
-<div id="ref-wboot2" class="csl-entry">
-Davidson, R., &amp; Flachaire, E. (2008). The wild bootstrap, tamed at last. <em>Journal of Econometrics</em>, <em>146</em>, 162–169.
+<div id="ref-boot4" class="csl-entry">
+Bickel, P. J., &amp; Freedman, D. A. (1981). Some asymptotic theory for the bootstrap. <em>The Annals of Statistics</em>, <em>9</em>, 1196–1217.
 </div>
 <div id="ref-boot1" class="csl-entry">
 Efron, B. (1979). Bootstrap methods: Another look at the jackknife. <em>The Annals of Statistics</em>, <em>7</em>, 1–26.
 </div>
 <div id="ref-boot2" class="csl-entry">
-Friedrich, S. et al. (2017). A wild bootstrap approach for nonparametric repeated measurements. <em>Computational Statistics &amp; Data Analysis</em>, <em>113</em>, 38–52.
+Efron, B. (1987). Better bootstrap confidence intervals. <em>Journal of the American Statistical Association</em>, <em>82</em>, 171–185.
 </div>
-<div id="ref-boot4" class="csl-entry">
-Konietschke, F., &amp; Pauly, M. (2014). Bootstrapping and permuting paired t-test type statistics. <em>Statistics and Computing</em>, <em>24</em>, 283–296.
+<div id="ref-boot8" class="csl-entry">
+Mammen, E. (1992). Bootstrap, wild bootstrap and asymptotic normality. <em>Probability Theory and Related Fields</em>, <em>93</em>, 439–455.
 </div>
-<div id="ref-boot7" class="csl-entry">
-Politis, D. N., &amp; Romano, J. P. (1994). Large sample confidence regions based on subsamples under minimal assumptions. <em>The Annals of Statistics</em>, <em>22</em>, 2031–2050.
+<div id="ref-boot9" class="csl-entry">
+Mammen, E. (1993). Bootstrap and wild bootstrap for high dimensional linear models. <em>Annals of Statistics</em>, <em>21</em>, 255–285.
+</div>
+<div id="ref-boot5" class="csl-entry">
+Quenouille, M. (1949). Problems in plane sampling. <em>The Annals of Mathematical Statistics</em>, <em>20</em>, 355–375.
 </div>
 <div id="ref-boot6" class="csl-entry">
-Prášková, Z. (2002). Bootstrap in nonstationary autoregression. <em>Kybernetika</em>, <em>38</em>, 389–404.
+Quenouille, M. (1956). Notes on bias in estimation. <em>Biometrika</em>, <em>43</em>, 353–360.
 </div>
 <div id="ref-boot3" class="csl-entry">
-Umlauft, M. et al. (2019). Wild bootstrapping rank-based procedures: Multiple testing in nonparametric factorial repeated measures designs. <em>Journal of Multivariate Analysis</em>, <em>171</em>, 176–192.
+Singh, K. (1981). On the asymptotic accuracy of efron’s bootstrap. <em>The Annals of Statistics</em>, <em>9</em>, 1187–1195.
 </div>
 <div id="ref-wboot1" class="csl-entry">
 Wu, C. F. J. (1986). Jackknife, bootstrap and other resampling methods in regression analysis. <em>Annals of Statistics</em>, <em>14</em>, 1261–1295.
