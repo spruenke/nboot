@@ -18,45 +18,51 @@
 		pages	= {1 - 26}
 	}
 	
-	% Nonparametric bootstrap instead of WALD or ANOVA, useful for small sample sizes
 	@article{boot2,
-		author	= {Friedrich, Sarah and Konietschke, Frank and Pauly, Markus},
-		title	= {A wild bootstrap approach for nonparametric repeated measurements},
-		year	= {2017},
-		journal	= {Computational Statistics \& Data Analysis},
-		volume	= {113},
-		pages	= {38 - 52}
+		author	= {Efron, Bradley},
+		title	= {Better Bootstrap Confidence Intervals},
+		year	= {1987},
+		journal	= {Journal of the American Statistical Association},
+		volume	= {82},
+		pages	= {171 - 185}
 	}
 	
-	% general factorial measure designs without normality or homogeneity -> use multiple contrast tests using wild bootstrap asymptotically correct
 	@article{boot3,
-		author	= {Umlauft, Maria and Placzek, Marius and Konietschke, Frank and Pauly, Markus},
-		title	= {Wild bootstrapping rank-based procedures: Multiple testing in nonparametric factorial repeated measures designs},
-		year	= {2019},
-		journal	= {Journal of Multivariate Analysis},
-		volume	= {171},
-		pages	= {176 - 192}
+		author	= {Singh, Kesar},
+		title	= {On the asymptotic accuracy of Efron's Bootstrap},
+		year	= {1981},
+		journal	= {The Annals of Statistics},
+		volume	= {9},
+		pages	= {1187 - 1195}
 	}
 	
-	% asymptotically valid permutation and bootstrap methods for matched paired samples even if distributions differ under the null with no treatment effect
 	@article{boot4,
-		author	= {Konietschke, Frank and Pauly, Markus},
-		title	= {Bootstrapping and permuting paired t-test type statistics},
-		year	= {2014},
-		journal	= {Statistics and Computing},
-		volume	= {24},
-		pages	= {283 - 296}
-	}	
-	
-	% parametric bootstrap for multivariate factorial designs does not need normality or equal covariance matrices
-	@article{boot5,
-		author	= {Bathke, Arne and Friedrich, Sarah and Pauly, Markus and Konietschke, Frank and Staffen, Wolfgang and Strobl, Nicolas and Höller, Yvonne},
-		title	= {Testing Mean Differences among Groups: Multivariate and Repeated Measures Analysis with Minimal Assumptions},
-		year	= {2018},
-		journal	= {Multivariate Behavioral Research},
-		volume	= {53},
-		pages	= {384 - 359}
+		author	= {Bickel, Peter J. and Freedman, David A.},
+		title	= {Some asymptotic theory for the Bootstrap},
+		year	= {1981},
+		journal	= {The Annals of Statistics},
+		volume	= {9},
+		pages	= {1196 - 1217}
 	}
+	
+	@article{boot5,
+		author	= {Quenouille, Maurice},
+		title	= {Problems in Plane Sampling},
+		year	= {1949},
+		journal	= {The Annals of Mathematical Statistics},
+		volume	= {20},
+		pages	= {355 - 375}
+	}
+	
+	@article{boot6,
+		author	= {Quenouille, Maurice},
+		title	= {Notes on Bias in Estimation},
+		year	= {1956},
+		journal	= {Biometrika},
+		volume	= {43},
+		pages	= {353 - 360}
+	}
+	
 	
 	% Wild bootstrap introduction
 	@article{wboot1,
@@ -68,33 +74,6 @@
 		year    = {1986}
 	}	
 	
-	% Wild bootstrap for reggression coefficient is consistent under mild moment conditions
-	@article{boot6,
-		author	= {Zuzana Prášková},
-		title	= {Bootstrap in Nonstationary Autoregression},
-		year	= {2002},
-		journal	= {Kybernetika},
-		volume	= {38},
-		pages	= {389 - 404}
-	}
-	@article{wboot2,
-		author  = {Davidson, Russel and Flachaire, Emmanuel},
-		journal = {Journal of Econometrics},
-		pages   = {162 - 169},
-		title   = {The wild bootstrap, tamed at last},
-		volume  = {146},
-		year    = {2008}
-	}
- 	
- 	% Bootstrap for stationary timeseries
- 	@article{boot7,
- 		author	= {Politis, Dimitris N. and Romano, Joseph P.},
- 		title	= {Large sample confidence regions based on Subsamples under minimal assumptions},
- 		year	= {1994},
- 		journal	= {The Annals of Statistics},
- 		volume	= {22},
- 		pages	= {2031 - 2050}
- 	}
  	
  	% Wild bootstrap for heteroscedastic/ non identical RV better
  	@article{boot8,
@@ -105,9 +84,18 @@
  		volume  = {93},
  		pages   = {439 - 455}
  	}
+
+	@article{boot9,
+		author  = {Mammen, Enno},
+		title	= {Bootstrap and Wild Bootstrap for High Dimensional Linear Models},
+		year	= {1993},
+		journal	= {Annals of Statistics},
+		volume	= {21},
+		pages	= {255 - 285}
+	} 	
  	
  	% Bootstrap Estimate is asymptotic minimax for a normal statistic
- 	@article{boot8,
+ 	@article{boot10,
  		author	= {Beran, Rudolf},
  		title	= {Estimated Sampling Distributions: The Bootstrap and Competitors},
  		year	= {1982},
